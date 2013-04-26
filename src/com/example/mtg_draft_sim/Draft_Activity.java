@@ -10,6 +10,7 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -22,6 +23,24 @@ public class Draft_Activity extends Activity {
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.draft_main);
+	    final ArrayList<String> list2 = new ArrayList<String>();
+
+		//database
+		TestDatabaseActivity database = new TestDatabaseActivity(this);
+		Log.d("Insert: ", "Inserting .. ");
+		database.addCard(new Rare_Card("Suck_my_dick"));
+		database.addCard(new Rare_Card("liliana"));
+		
+		//reading contact
+		Log.d("Reading: ", "Reading all contacts..");
+		List<Rare_Card> cards = database.getAllCards();
+		for (Rare_Card card: cards)
+		{
+			String log= "ID: " + card.getID()+ ",Name: " + card.getName();
+			Log.d("Name: ", log);
+			String card_name = card.getName();
+			list2.add(card_name);
+		}
 		
 		final ListView listview = (ListView) findViewById(R.id.listview);
 	    String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
@@ -37,7 +56,7 @@ public class Draft_Activity extends Activity {
 	    }
 	    
 	    final StableArrayAdapter adapter = new StableArrayAdapter(this,
-	            android.R.layout.simple_list_item_1, list);
+	            android.R.layout.simple_list_item_1, list2);
 	        listview.setAdapter(adapter);
 	        
 	        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -47,7 +66,7 @@ public class Draft_Activity extends Activity {
 	                int position, long id)
 	            {
 	            	final String item = (String) parent.getItemAtPosition(position);
-        			list.remove(item);
+        			list2.remove(item);
         			adapter.notifyDataSetChanged();
 	            }
 	          });
