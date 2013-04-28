@@ -1,104 +1,103 @@
 // list view tutorial http://www.vogella.com/articles/AndroidListView/article.html
 //http://stackoverflow.com/questions/13977040/how-right-use-preloaded-database-in-android
 
+// expandable list view tutorial
+// http://androidtrainningcenter.blogspot.in/2012/07/android-expandable-listview-simple.html
+// child image tutorial
+// http://stackoverflow.com/questions/7790822/how-can-i-show-image-in-childgroup-in-expandablelistview
 
 package com.example.mtg_draft_sim;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
-import android.app.Activity;
+import android.app.ExpandableListActivity;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.ExpandableListView;
+import android.widget.Toast;
 
-public class Draft_Activity extends Activity {
+
+
+public class Draft_Activity extends ExpandableListActivity
+{
+	 @Override
+	 public void onCreate(Bundle savedInstanceState) {
+	  super.onCreate(savedInstanceState);
+	  ExpandableListView expandbleLis = getExpandableListView();
+	  expandbleLis.setDividerHeight(2);
+	  expandbleLis.setGroupIndicator(null);
+	  expandbleLis.setClickable(true);
+
+	  setGroupData();
+	  setChildGroupData();
+
+	  NewAdapter mNewAdapter = new NewAdapter(groupItem, childItem);
+	  mNewAdapter
+	    .setInflater(
+	      (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE),
+	      this);
+	  getExpandableListView().setAdapter(mNewAdapter);
+	  expandbleLis.setOnChildClickListener(this);
+	 }
+
+	 public void setGroupData() {
+	  groupItem.add("TechNology");
+	  groupItem.add("Mobile");
+	  groupItem.add("Manufacturer");
+	  groupItem.add("Extras");
+	 }
+
+	 ArrayList<String> groupItem = new ArrayList<String>();
+	 ArrayList<Object> childItem = new ArrayList<Object>();
+
+	 public void setChildGroupData() {
+	  /**
+	   * Add Data For TecthNology
+	   */
+	  ArrayList<String> child = new ArrayList<String>();
+	  child.add("Java");
+	  child.add("Drupal");
+	  child.add(".Net Framework");
+	  child.add("PHP");
+	  childItem.add(child);
+
+	  /**
+	   * Add Data For Mobile
+	   */
+	  child = new ArrayList<String>();
+	  child.add("Android");
+	  child.add("Window Mobile");
+	  child.add("iPHone");
+	  child.add("Blackberry");
+	  childItem.add(child);
+	  /**
+	   * Add Data For Manufacture
+	   */
+	  child = new ArrayList<String>();
+	  child.add("HTC");
+	  child.add("Apple");
+	  child.add("Samsung");
+	  child.add("Nokia");
+	  childItem.add(child);
+	  /**
+	   * Add Data For Extras
+	   */
+	  child = new ArrayList<String>();
+	  child.add("Contact Us");
+	  child.add("About Us");
+	  child.add("Location");
+	  child.add("Root Cause");
+	  childItem.add(child);
+	 }
+
+	 @Override
+	 public boolean onChildClick(ExpandableListView parent, View v,
+	   int groupPosition, int childPosition, long id)
+	 {
+		 Toast.makeText(Draft_Activity.this, "Clicked On Child", Toast.LENGTH_SHORT).show();
+		 return true;
+	 }
 	
-	@Override
-	public void onCreate(Bundle savedInstanceState)
-	{
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.draft_main);
-	    final ArrayList<String> list2 = new ArrayList<String>();
-
-		//database
-		TestDatabaseActivity database = new TestDatabaseActivity(this);
-		Log.d("Insert: ", "Inserting .. ");
-		database.addCard(new Card("Garruk", "Common"));
-		database.addCard(new Card("liliana", "Common"));
-		
-		//reading contact
-		Log.d("Reading: ", "Reading all contacts..");
-		List<Card> cards = database.getAllCards();
-		for (Card card: cards)
-		{
-			String log= "ID: " + card.getID()+ ",Name: " + card.getName();
-			Log.d("Name: ", log);
-			String card_name = card.getName();
-			list2.add(card_name);
-		}
-		
-		final ListView listview = (ListView) findViewById(R.id.listview);
-	    String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
-	        "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-	        "Linux", "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux",
-	        "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux", "OS/2",
-	        "Android", "iPhone", "WindowsMobile" };
-	    
-	    final ArrayList<String> list = new ArrayList<String>();
-	    for (int i = 0; i < values.length; ++i)
-	    {
-	    	list.add(values[i]);
-	    }
-	    
-	    final StableArrayAdapter adapter = new StableArrayAdapter(this,
-	            android.R.layout.simple_list_item_1, list2);
-	        listview.setAdapter(adapter);
-	        
-	        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-	            @Override
-	            public void onItemClick(AdapterView<?> parent, final View view,
-	                int position, long id)
-	            {
-	            	final String item = (String) parent.getItemAtPosition(position);
-        			list2.remove(item);
-        			adapter.notifyDataSetChanged();
-	            }
-	          });
-	}
-	
-	private class StableArrayAdapter extends ArrayAdapter<String>
-	{
-
-	    HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
-
-	    public StableArrayAdapter(Context context, int textViewResourceId,
-	        List<String> objects)
-	    {
-	    	super(context, textViewResourceId, objects);
-	    	for (int i = 0; i < objects.size(); ++i)
-	    	{
-	    		mIdMap.put(objects.get(i), i);
-	    	}
-	    }
-	    
-	    @Override
-	    public long getItemId(int position)
-	    {
-	      String item = getItem(position);
-	      return mIdMap.get(item);
-	    }
-
-	    @Override
-	    public boolean hasStableIds()
-	    {
-	    	return true;
-	    }
-	}
 }

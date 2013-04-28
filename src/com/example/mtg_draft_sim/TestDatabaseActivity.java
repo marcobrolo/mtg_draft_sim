@@ -35,10 +35,12 @@ public class TestDatabaseActivity extends SQLiteOpenHelper
 			+ " integer primary key autoincrement, " + KEY_CARD_NAME
 			+ " text not null, " + KEY_RARITY + " text not null);";
 	
-	
+	private static final String DATABASE_RARITY_CONSTRAINT = "ALTER TABLE dbo.Table ADD CONSTRAINT " 
+			+ "chk_rarity" + "CHECK (" + TABLE_NAME + " IN ('Common', 'Rare', 'Uncommon'));";
 	public void onCreate(SQLiteDatabase database)
 	{
 		database.execSQL(DATABASE_CREATE);
+		//database.execSQL(DATABASE_RARITY_CONSTRAINT);
 	}
 	
 	public void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion)

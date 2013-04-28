@@ -3,6 +3,7 @@ package com.example.mtg_draft_sim;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -47,7 +48,17 @@ public class MainActivity extends Activity {
     
     private void fillDatabase()
     {
-    	
+    	// insert db with cards
+    	TestDatabaseActivity database = new TestDatabaseActivity(this);
+		Log.d("Insert: ", "Inserting .. ");
+		database.addCard(new Card("Boros Mastiff", "Common"));
+		database.addCard(new Card("Haazda Snare Squad", "Common"));
+		database.addCard(new Card("Lyev Decree", "Common"));
+		database.addCard(new Card("Maze Sentinel", "Common"));
+		database.addCard(new Card("Renounce the Guilds", "Rare"));
+		database.addCard(new Card("Riot Control", "Common"));
+		database.addCard(new Card("Scion of Vitu-Ghazi", "Common"));
+		
     }
 	
 	@Override
