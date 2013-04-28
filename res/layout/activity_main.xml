@@ -5,10 +5,22 @@
     tools:context=".MainActivity" >
 
     <Button
-		 android:id="@+id/MenuButton"
-		 android:layout_width="fill_parent"
-		 android:layout_height="wrap_content"
-		 android:text="Start"
-	/>
+        android:id="@+id/MenuButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="62dp"
+        android:height="0dp"
+        android:text="Start" />
+
+    <Button
+        android:id="@+id/DatabaseButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/MenuButton"
+        android:layout_marginTop="72dp"
+        android:text="Fill Database" />
     
 </RelativeLayout>

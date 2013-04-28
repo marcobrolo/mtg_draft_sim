@@ -1,4 +1,5 @@
 // list view tutorial http://www.vogella.com/articles/AndroidListView/article.html
+//http://stackoverflow.com/questions/13977040/how-right-use-preloaded-database-in-android
 
 
 package com.example.mtg_draft_sim;
@@ -28,13 +29,13 @@ public class Draft_Activity extends Activity {
 		//database
 		TestDatabaseActivity database = new TestDatabaseActivity(this);
 		Log.d("Insert: ", "Inserting .. ");
-		database.addCard(new Rare_Card("Suck_my_dick"));
-		database.addCard(new Rare_Card("liliana"));
+		database.addCard(new Card("Garruk", "Common"));
+		database.addCard(new Card("liliana", "Common"));
 		
 		//reading contact
 		Log.d("Reading: ", "Reading all contacts..");
-		List<Rare_Card> cards = database.getAllCards();
-		for (Rare_Card card: cards)
+		List<Card> cards = database.getAllCards();
+		for (Card card: cards)
 		{
 			String log= "ID: " + card.getID()+ ",Name: " + card.getName();
 			Log.d("Name: ", log);

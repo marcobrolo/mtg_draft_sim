@@ -1,24 +1,27 @@
 package com.example.mtg_draft_sim;
 
-public class Rare_Card {
+public class Card {
 
 	// private variables
 	int _id;
 	String _name;
+	String _rarity;
 	
-	public Rare_Card()
+	public Card()
 	{	
 	}
 	
-	public Rare_Card(int id, String name)
+	public Card(int id, String name, String rarity)
 	{
 		this._id = id;
 		this._name = name;
+		this._rarity = rarity;
 	}
 	
-	public Rare_Card(String name)
+	public Card(String name, String rarity)
 	{
 		this._name = name;
+		this._rarity = rarity;
 	}
 	
 	
@@ -33,6 +36,11 @@ public class Rare_Card {
 		return this._id;
 	}
 	
+	public String getRarity()
+	{
+		return this._rarity;
+	}
+	
 	public void setID(int id)
 	{
 		this._id = id;
@@ -41,6 +49,11 @@ public class Rare_Card {
 	public void setName(String name)
 	{
 		this._name = name;
+	}
+	
+	public void setRarity(String rarity)
+	{
+		this._rarity = rarity;
 	}
 	
 	
