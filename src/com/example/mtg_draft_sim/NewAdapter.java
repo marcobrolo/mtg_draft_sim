@@ -1,5 +1,6 @@
 // http://android-keas.blogspot.ca/2010/06/expandablelistview-with-dynamic-images.html
 package com.example.mtg_draft_sim;
+//hash map for variable string
 
 import java.util.ArrayList;
 
@@ -7,12 +8,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckedTextView;
 import android.widget.ImageView;
-
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 @SuppressWarnings("unchecked")
@@ -23,16 +25,18 @@ public class NewAdapter extends BaseExpandableListAdapter
 	public ArrayList<Object> Childtem = new ArrayList<Object>();
 	public LayoutInflater minflater;
 	public Activity activity;
+	protected Context _context;
 	
 	private class Holder
 	{
 		private ImageView image;
 	}
 	
-	public NewAdapter(ArrayList<String> grList, ArrayList<Object> childItem)
+	public NewAdapter(ArrayList<String> grList, ArrayList<Object> childItem, Context context)
 	{
 		groupItem = grList;
 		this.Childtem = childItem;
+		this._context = context;
 	}
 
 	public void setInflater(LayoutInflater mInflater, Activity act)
@@ -52,66 +56,76 @@ public class NewAdapter extends BaseExpandableListAdapter
 	{
 		return 0;
 	}
-	
+	/*
 	public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent)
-	{
-		View view= getGenericGroupView(groupPosition ,convertView);
-		return view;
-	}           
-	
-	public View getGenericGroupView(int groupPosition, View convertView)
 	{
 		// Layout parameters for the ExpandableListView
         View view=null;
-        try{
-
-
-        AbsListView.LayoutParams lp = new AbsListView.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, 90);
-        view=convertView;
-        Holder holder=new Holder(); 
-        if(convertView==null)
+        TextView text = null;
+        tempChild = (ArrayList<String>) Childtem.get(groupPosition);
+        try
         {
-            //LayoutInflater inflator=(LayoutInflater) ExpandableList1.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            //view=inflator.inflate(R.layout.child_row, null);
-        	view = minflater.inflate(R.layout.child_row, null);
-            view.setLayoutParams(lp);
-
-            view.setPadding(80, 5, 5, 5);
-            holder.image=(ImageView)view.findViewById(R.id.childImage);
-
-            view.setTag(holder);
+	        AbsListView.LayoutParams lp = new AbsListView.LayoutParams(
+	        ViewGroup.LayoutParams.MATCH_PARENT, 90);
+	        view = convertView;
+	        Holder holder = new Holder(); 
+	        if(convertView==null)
+	        {
+	            //LayoutInflater inflator=(LayoutInflater) ExpandableList1.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	            //view=inflator.inflate(R.layout.child_row, null);
+	        	view = minflater.inflate(R.layout.child_row, null);
+	            view.setLayoutParams(lp);
+	
+	            view.setPadding(80, 5, 5, 5);
+	            holder.image=(ImageView)view.findViewById(R.id.childImage);
+	
+	            view.setTag(holder);
+	        }
+	        else
+	        {
+	            holder=(Holder) view.getTag();
+	        }
+	        String card_name = "minus";
+	        //holder.image.setImageResource(getResources().getIdentifier(card_name, "drawable", getPackageName()));
+	        
+	        Class res = R.string.class;
+	        Field field = res.getField("minus");
+	        int headerId = field.getInt(null);
+	        holder.image.setImageResource(R.drawable.minus);
+	        //text = (TextView) convertView.findViewById(R.id.textView1);
+			//text.setText("suckmydick");
+			text = (TextView) convertView.findViewById(R.id.textView1);
+			text.setText(tempChild.get(childPosition));
         }
-        else
+        catch (Exception e)
         {
-            holder=(Holder) view.getTag();
-        }
-            holder.image.setImageResource(R.drawable.minus);
-
-
-        }catch (Exception e) {
 
             e.printStackTrace();
             // TODO: handle exception
         }
-
         return view;
-    }
-	
+	}           
+	*/
 
-/*
+
 	@Override
 	public View getChildView(int groupPosition, final int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent)
 	{
 		tempChild = (ArrayList<String>) Childtem.get(groupPosition);
 		TextView text = null;
+		ImageView image = null;
+		
 		if (convertView == null)
 		{
 			convertView = minflater.inflate(R.layout.child_row, null);
 		}
 		text = (TextView) convertView.findViewById(R.id.textView1);
-		text.setText(tempChild.get(childPosition));
+		String card_name = tempChild.get(childPosition);
+		text.setText(card_name);
+		int resID = _context.getResources().getIdentifier(card_name, "drawable", _context.getPackageName());
+		image = (ImageView) convertView.findViewById(R.id.childImage);
+		image.setImageResource(resID);
 		convertView.setOnClickListener(new OnClickListener() 
 		{
 			@Override
@@ -123,7 +137,7 @@ public class NewAdapter extends BaseExpandableListAdapter
 		});
 		return convertView;
 	}
-*/
+
 	@Override
 	public int getChildrenCount(int groupPosition)
 	{

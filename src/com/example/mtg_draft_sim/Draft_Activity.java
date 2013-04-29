@@ -21,83 +21,60 @@ import android.widget.Toast;
 
 
 public class Draft_Activity extends ExpandableListActivity
-{
-	 @Override
-	 public void onCreate(Bundle savedInstanceState) {
-	  super.onCreate(savedInstanceState);
-	  ExpandableListView expandbleLis = getExpandableListView();
-	  expandbleLis.setDividerHeight(2);
-	  expandbleLis.setGroupIndicator(null);
-	  expandbleLis.setClickable(true);
+{	
+    ArrayList<String> groupItem = new ArrayList<String>();
+	ArrayList<Object> childItem = new ArrayList<Object>();
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState) 
+	{
+		super.onCreate(savedInstanceState);
+		ExpandableListView expandbleLis = getExpandableListView();
+		expandbleLis.setDividerHeight(2);
+		expandbleLis.setGroupIndicator(null);
+		expandbleLis.setClickable(true);
+		  
+		setGroupData();		// create group data
+		setChildGroupData();	// create child data
+		  
+		NewAdapter mNewAdapter = new NewAdapter(groupItem, childItem, Draft_Activity.this);
+		mNewAdapter.setInflater(
+		    (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE),
+		    this);
+		getExpandableListView().setAdapter(mNewAdapter);
+		expandbleLis.setOnChildClickListener(this);
+	}
 
-	  setGroupData();
-	  setChildGroupData();
+	public void setGroupData() 
+	{
+		groupItem.add("Lyev Decree");
+		groupItem.add("Riot Control");
+	}
 
-	  NewAdapter mNewAdapter = new NewAdapter(groupItem, childItem);
-	  mNewAdapter
-	    .setInflater(
-	      (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE),
-	      this);
-	  getExpandableListView().setAdapter(mNewAdapter);
-	  expandbleLis.setOnChildClickListener(this);
-	 }
+	public void setChildGroupData()
+	{
+		/**
+		  * Add Data For TecthNology
+		  */
+		ArrayList<String> child = new ArrayList<String>();
+		child.add("lyevdecree");
+		childItem.add(child);
+	
+		/**
+		  * Add Data For Mobile
+		  */
+		child = new ArrayList<String>();
+		child.add("riotcontrol");
+		childItem.add(child);
 
-	 public void setGroupData() {
-	  groupItem.add("TechNology");
-	  groupItem.add("Mobile");
-	  groupItem.add("Manufacturer");
-	  groupItem.add("Extras");
-	 }
+	}
 
-	 ArrayList<String> groupItem = new ArrayList<String>();
-	 ArrayList<Object> childItem = new ArrayList<Object>();
-
-	 public void setChildGroupData() {
-	  /**
-	   * Add Data For TecthNology
-	   */
-	  ArrayList<String> child = new ArrayList<String>();
-	  child.add("Java");
-	  child.add("Drupal");
-	  child.add(".Net Framework");
-	  child.add("PHP");
-	  childItem.add(child);
-
-	  /**
-	   * Add Data For Mobile
-	   */
-	  child = new ArrayList<String>();
-	  child.add("Android");
-	  child.add("Window Mobile");
-	  child.add("iPHone");
-	  child.add("Blackberry");
-	  childItem.add(child);
-	  /**
-	   * Add Data For Manufacture
-	   */
-	  child = new ArrayList<String>();
-	  child.add("HTC");
-	  child.add("Apple");
-	  child.add("Samsung");
-	  child.add("Nokia");
-	  childItem.add(child);
-	  /**
-	   * Add Data For Extras
-	   */
-	  child = new ArrayList<String>();
-	  child.add("Contact Us");
-	  child.add("About Us");
-	  child.add("Location");
-	  child.add("Root Cause");
-	  childItem.add(child);
-	 }
-
-	 @Override
-	 public boolean onChildClick(ExpandableListView parent, View v,
-	   int groupPosition, int childPosition, long id)
-	 {
-		 Toast.makeText(Draft_Activity.this, "Clicked On Child", Toast.LENGTH_SHORT).show();
-		 return true;
-	 }
+	@Override
+	public boolean onChildClick(ExpandableListView parent, View v,
+			int groupPosition, int childPosition, long id)
+	{
+		Toast.makeText(Draft_Activity.this, "Clicked On Child", Toast.LENGTH_SHORT).show();
+		return true;
+	}
 	
 }

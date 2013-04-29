@@ -15,7 +15,8 @@ public final class R {
         public static final int minus=0x7f020001;
         public static final int plus=0x7f020002;
         public static final int plusminus=0x7f020003;
-        public static final int write_arrow=0x7f020004;
+        public static final int riotcontrol=0x7f020004;
+        public static final int write_arrow=0x7f020005;
     }
     public static final class id {
         public static final int DatabaseButton=0x7f070001;
@@ -35,6 +36,7 @@ public final class R {
     }
     public static final class string {
         public static final int app_name=0x7f040000;
+        public static final int card_name=0x7f040003;
         public static final int hello_world=0x7f040001;
         public static final int menu_settings=0x7f040002;
     }
