@@ -5,11 +5,13 @@
 // http://androidtrainningcenter.blogspot.in/2012/07/android-expandable-listview-simple.html
 // child image tutorial
 // http://stackoverflow.com/questions/7790822/how-can-i-show-image-in-childgroup-in-expandablelistview
-
+// exp list delete group item and refresh
+//http://stackoverflow.com/questions/4366132/delete-group-in-expandable-list
 package com.example.mtg_draft_sim;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import android.app.ExpandableListActivity;
 import android.content.Context;
@@ -26,18 +28,41 @@ public class Draft_Activity extends ExpandableListActivity
 {	
     ArrayList<String> groupItem = new ArrayList<String>();
 	ArrayList<Object> childItem = new ArrayList<Object>();
+	ArrayList<Booster_Pack> packList = new ArrayList<Booster_Pack>();
+	ArrayList<String> draftDeckList = new ArrayList<String>();
+	int pack_counter = 1;
+	int player_count = 6;
+	int card_per_pack_count = 15;
+	int dragon_maze_card_count = 156;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) 
+	{
+		//super.onCreate(savedInstanceState);
+		//ExpandableListView expandbleLis = getExpandableListView();
+		//expandbleLis.setDividerHeight(2);
+		//expandbleLis.setGroupIndicator(null);
+		//expandbleLis.setClickable(true);
+		
+		CreatePacks();
+		setGroupData();		// create group data
+		viewPack(savedInstanceState);
+		 
+		//NewAdapter mNewAdapter = new NewAdapter(groupItem, childItem, Draft_Activity.this);
+		//mNewAdapter.setInflater(
+		//    (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE),
+		//    this);
+		//getExpandableListView().setAdapter(mNewAdapter);
+		//expandbleLis.setOnChildClickListener(this);
+	}
+	
+	public void viewPack(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		ExpandableListView expandbleLis = getExpandableListView();
 		expandbleLis.setDividerHeight(2);
 		expandbleLis.setGroupIndicator(null);
 		expandbleLis.setClickable(true);
-		  
-		setGroupData();		// create group data
-		  
 		NewAdapter mNewAdapter = new NewAdapter(groupItem, childItem, Draft_Activity.this);
 		mNewAdapter.setInflater(
 		    (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE),
@@ -45,7 +70,50 @@ public class Draft_Activity extends ExpandableListActivity
 		getExpandableListView().setAdapter(mNewAdapter);
 		expandbleLis.setOnChildClickListener(this);
 	}
+	
+	public void CreatePacks()
+	{
+		// create packs for players
+		TestDatabaseActivity database = new TestDatabaseActivity(this);
+		Random r = new Random();
+		for (int i=0; i<player_count; i++)
+		{
+			Booster_Pack newBooster = new Booster_Pack();
+			for(int j=0; j<card_per_pack_count; j++)
+			{
+				//String card_name = database.getCard(r.nextInt(dragon_maze_card_count +1) +1).getName();
+				String card_name = database.getCard(3).getName();
 
+				newBooster.addCard(card_name);
+			}
+			packList.add(newBooster);
+		}
+		
+	}
+	
+	public void setGroupData() 
+	{
+		// get the current booster
+		Booster_Pack currentBooster = packList.get(pack_counter);
+		ArrayList<String> cardList = currentBooster.getCardList();
+		
+		
+		for (int i = 0; i < cardList.size(); i++)
+		{
+			String card_name = cardList.get(i);
+			groupItem.add(card_name);
+			ArrayList<String> child = new ArrayList<String>();
+			child.add(card_name.
+					replaceAll("\\s","").
+					replaceAll("-","").
+					replaceAll(",","").
+					replaceAll("'","").
+					toLowerCase());
+			childItem.add(child);
+		}
+	}
+	
+	/*
 	public void setGroupData() 
 	{
 		// read database and create cards
@@ -69,13 +137,23 @@ public class Draft_Activity extends ExpandableListActivity
 		}
 		//groupItem.add("Lyev Decree");
 		//groupItem.add("Riot Control");
-	}
+	}*/
 
+	public void removeCardFromBooster(String cardNameVal)
+	{
+		Booster_Pack currentBooster = packList.get(pack_counter);
+		currentBooster.removeCard(cardNameVal);
+		// increment pack counter after card selection
+		pack_counter = (pack_counter+1) % player_count;
+	}
+	
 	@Override
 	public boolean onChildClick(ExpandableListView parent, View v,
 			int groupPosition, int childPosition, long id)
 	{
+		removeCardFromBooster(groupItem.get(groupPosition));
 		Toast.makeText(Draft_Activity.this, "Clicked On Child", Toast.LENGTH_SHORT).show();
+		
 		return true;
 	}
 	
