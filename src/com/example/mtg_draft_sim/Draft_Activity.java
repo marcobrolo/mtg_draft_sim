@@ -9,10 +9,12 @@
 package com.example.mtg_draft_sim;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.ExpandableListActivity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ExpandableListView;
@@ -35,7 +37,6 @@ public class Draft_Activity extends ExpandableListActivity
 		expandbleLis.setClickable(true);
 		  
 		setGroupData();		// create group data
-		setChildGroupData();	// create child data
 		  
 		NewAdapter mNewAdapter = new NewAdapter(groupItem, childItem, Draft_Activity.this);
 		mNewAdapter.setInflater(
@@ -47,26 +48,27 @@ public class Draft_Activity extends ExpandableListActivity
 
 	public void setGroupData() 
 	{
-		groupItem.add("Lyev Decree");
-		groupItem.add("Riot Control");
-	}
-
-	public void setChildGroupData()
-	{
-		/**
-		  * Add Data For TecthNology
-		  */
-		ArrayList<String> child = new ArrayList<String>();
-		child.add("lyevdecree");
-		childItem.add(child);
-	
-		/**
-		  * Add Data For Mobile
-		  */
-		child = new ArrayList<String>();
-		child.add("riotcontrol");
-		childItem.add(child);
-
+		// read database and create cards
+		TestDatabaseActivity database = new TestDatabaseActivity(this);
+		Log.d("Reading: ", "Reading all contacts..");
+		List<Card> cards = database.getAllCards();
+		for (Card card: cards)
+		{
+			String log= "ID: " + card.getID()+ ",Name: " + card.getName();
+			Log.d("Name: ", log);
+			String card_name = card.getName();
+			groupItem.add(card_name);
+			ArrayList<String> child = new ArrayList<String>();
+			child.add(card_name.
+					replaceAll("\\s","").
+					replaceAll("-","").
+					replaceAll(",","").
+					replaceAll("'","").
+					toLowerCase());
+			childItem.add(child);
+		}
+		//groupItem.add("Lyev Decree");
+		//groupItem.add("Riot Control");
 	}
 
 	@Override

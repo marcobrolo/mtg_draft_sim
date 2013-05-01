@@ -56,57 +56,6 @@ public class NewAdapter extends BaseExpandableListAdapter
 	{
 		return 0;
 	}
-	/*
-	public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent)
-	{
-		// Layout parameters for the ExpandableListView
-        View view=null;
-        TextView text = null;
-        tempChild = (ArrayList<String>) Childtem.get(groupPosition);
-        try
-        {
-	        AbsListView.LayoutParams lp = new AbsListView.LayoutParams(
-	        ViewGroup.LayoutParams.MATCH_PARENT, 90);
-	        view = convertView;
-	        Holder holder = new Holder(); 
-	        if(convertView==null)
-	        {
-	            //LayoutInflater inflator=(LayoutInflater) ExpandableList1.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	            //view=inflator.inflate(R.layout.child_row, null);
-	        	view = minflater.inflate(R.layout.child_row, null);
-	            view.setLayoutParams(lp);
-	
-	            view.setPadding(80, 5, 5, 5);
-	            holder.image=(ImageView)view.findViewById(R.id.childImage);
-	
-	            view.setTag(holder);
-	        }
-	        else
-	        {
-	            holder=(Holder) view.getTag();
-	        }
-	        String card_name = "minus";
-	        //holder.image.setImageResource(getResources().getIdentifier(card_name, "drawable", getPackageName()));
-	        
-	        Class res = R.string.class;
-	        Field field = res.getField("minus");
-	        int headerId = field.getInt(null);
-	        holder.image.setImageResource(R.drawable.minus);
-	        //text = (TextView) convertView.findViewById(R.id.textView1);
-			//text.setText("suckmydick");
-			text = (TextView) convertView.findViewById(R.id.textView1);
-			text.setText(tempChild.get(childPosition));
-        }
-        catch (Exception e)
-        {
-
-            e.printStackTrace();
-            // TODO: handle exception
-        }
-        return view;
-	}           
-	*/
-
 
 	@Override
 	public View getChildView(int groupPosition, final int childPosition,
@@ -131,6 +80,8 @@ public class NewAdapter extends BaseExpandableListAdapter
 			@Override
 			public void onClick(View v) 
 			{
+				// render new view?
+				
 				Toast.makeText(activity, tempChild.get(childPosition),
 						Toast.LENGTH_SHORT).show();
 			}
