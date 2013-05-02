@@ -24,6 +24,16 @@ public class Booster_Pack
 	public void removeCard(String card_val)
 	{
 		this.cardList.remove(card_val);
+		this.card_count--;
+	}
+	public String getCardName(int card_id)
+	{
+		return this.cardList.get(card_id);
+	}
+	public void removeCard(int card_val)
+	{
+		this.cardList.remove(card_val);
+		this.card_count--;
 	}
 	
 	public int getCardCount()

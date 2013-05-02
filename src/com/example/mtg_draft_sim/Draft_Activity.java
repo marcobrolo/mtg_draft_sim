@@ -47,7 +47,7 @@ public class Draft_Activity extends ExpandableListActivity
 		//expandbleLis.setClickable(true);
 		
 		CreatePacks();
-		setGroupData();		// create group data
+		Log.d("Going into view pack", "going in");
 		viewPack(savedInstanceState);
 		 
 		//NewAdapter mNewAdapter = new NewAdapter(groupItem, childItem, Draft_Activity.this);
@@ -60,15 +60,21 @@ public class Draft_Activity extends ExpandableListActivity
 	
 	public void viewPack(Bundle savedInstanceState)
 	{
+		Log.d("in viewpack", "part1");
 		super.onCreate(savedInstanceState);
 		ExpandableListView expandbleLis = getExpandableListView();
+		Log.d("in viewpack", "part2");
 		expandbleLis.setDividerHeight(2);
 		expandbleLis.setGroupIndicator(null);
+		Log.d("in viewpack", "part3");
 		expandbleLis.setClickable(true);
+		Log.d("in viewpack", "part4");
 		if(mNewAdapter == null)
 		{
+			Log.d("adapter is null", "?");
 			mNewAdapter = new NewAdapter(packList, Draft_Activity.this);
 		}
+		Log.d("adapter is not null", "?");
 		mNewAdapter.setInflater(
 		    (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE),
 		    this);
@@ -101,34 +107,6 @@ public class Draft_Activity extends ExpandableListActivity
 				newBooster.addCard(card_name);
 			}
 			packList.add(newBooster);
-		}
-	}
-	
-	public String modifyCardName(String card_name_val)
-	{
-		// method to remove non alpha characters from string
-		return card_name_val.
-				replaceAll("\\s","").
-				replaceAll("-","").
-				replaceAll(",","").
-				replaceAll("'","").
-				toLowerCase();
-	}
-	
-	public void setGroupData() 
-	{
-		// get the current booster
-		Booster_Pack currentBooster = packList.get(pack_counter);
-		ArrayList<String> cardList = currentBooster.getCardList();
-		
-		
-		for (int i = 0; i < cardList.size(); i++)
-		{
-			String card_name = cardList.get(i);
-			groupItem.add(card_name);
-			ArrayList<String> child = new ArrayList<String>();
-			child.add(modifyCardName(card_name));
-			childItem.add(child);
 		}
 	}
 	
