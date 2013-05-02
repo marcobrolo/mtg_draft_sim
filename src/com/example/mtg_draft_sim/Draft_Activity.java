@@ -46,7 +46,7 @@ public class Draft_Activity extends ExpandableListActivity
 		//expandbleLis.setGroupIndicator(null);
 		//expandbleLis.setClickable(true);
 		
-		CreatePacks();
+		//CreatePacks();
 		Log.d("Going into view pack", "going in");
 		viewPack(savedInstanceState);
 		 
@@ -72,7 +72,7 @@ public class Draft_Activity extends ExpandableListActivity
 		if(mNewAdapter == null)
 		{
 			Log.d("adapter is null", "?");
-			mNewAdapter = new NewAdapter(packList, Draft_Activity.this);
+			mNewAdapter = new NewAdapter(Draft_Activity.this);
 		}
 		Log.d("adapter is not null", "?");
 		mNewAdapter.setInflater(
