@@ -106,8 +106,9 @@ public class TestDatabaseActivity extends SQLiteOpenHelper
 		String countQuery = "SELECT * FROM " + TABLE_NAME;
 		SQLiteDatabase database = this.getReadableDatabase();
 		Cursor cursor = database.rawQuery(countQuery, null);
+		int getCount = cursor.getCount();
 		cursor.close();
-		return cursor.getCount();
+		return getCount;
 	}
 	
 	public int updateCard(Card card)

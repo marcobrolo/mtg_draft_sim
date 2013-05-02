@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,6 +24,8 @@ public class NewAdapter extends BaseExpandableListAdapter
 
 	public ArrayList<String> groupItem, tempChild;
 	public ArrayList<Object> Childtem = new ArrayList<Object>();
+	ArrayList<String> draftDeckList = new ArrayList<String>();
+	ArrayList<Booster_Pack> packList = new ArrayList<Booster_Pack>();
 	public LayoutInflater minflater;
 	public Activity activity;
 	protected Context _context;
@@ -38,7 +41,21 @@ public class NewAdapter extends BaseExpandableListAdapter
 		this.Childtem = childItem;
 		this._context = context;
 	}
-
+	
+	public void removeGroup(int group)
+	{
+		Log.v("Adapter", "Removing group"+group);
+		groupItem.remove(group);
+        notifyDataSetChanged();
+	}
+	
+	public void removeChild(int group, int child)
+	{
+		Log.v("Adapter", "Removing child "+child+" in group "+group);
+		Childtem.remove(child);
+        notifyDataSetChanged();
+	}
+	
 	public void setInflater(LayoutInflater mInflater, Activity act)
 	{
 		this.minflater = mInflater;
@@ -58,7 +75,7 @@ public class NewAdapter extends BaseExpandableListAdapter
 	}
 
 	@Override
-	public View getChildView(int groupPosition, final int childPosition,
+	public View getChildView(final int groupPosition, final int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent)
 	{
 		tempChild = (ArrayList<String>) Childtem.get(groupPosition);
@@ -80,7 +97,10 @@ public class NewAdapter extends BaseExpandableListAdapter
 			@Override
 			public void onClick(View v) 
 			{
-				// render new view?
+				// when the child is clicked, this means user selects the card
+				// remove the card then and update the pack info
+				removeGroup(groupPosition);
+				removeChild(groupPosition, childPosition);
 				
 				Toast.makeText(activity, tempChild.get(childPosition),
 						Toast.LENGTH_SHORT).show();
@@ -137,7 +157,7 @@ public class NewAdapter extends BaseExpandableListAdapter
 		((CheckedTextView) convertView).setChecked(isExpanded);
 		return convertView;
 	}
-
+	
 	@Override
 	public boolean hasStableIds()
 	{
@@ -147,7 +167,9 @@ public class NewAdapter extends BaseExpandableListAdapter
 	@Override
 	public boolean isChildSelectable(int groupPosition, int childPosition)
 	{
-		return false;
+		return true;
 	}
+	
+	
 
 }
